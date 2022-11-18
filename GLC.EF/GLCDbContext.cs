@@ -22,10 +22,6 @@ namespace GLC.EF
         {
 
         }
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlServer(@"Server=.; Database=GLCDB;Trusted_Connection=True;", b => b.MigrationsAssembly("GLC_API"));
-        }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.Entity<ChatingDetails>().HasKey(table => new
