@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.VisualBasic;
+using System.Collections.ObjectModel;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace GLC.Cores.Models
@@ -15,6 +17,6 @@ namespace GLC.Cores.Models
         public int SubjectId { get; set; }
         public  Subject Subject { get; set; }
         public bool Availability { get; set; }
-       public ICollection<Student> Students { get; set; }
+       public ICollection<Student> Students { get; set; }=new Collection<Student>();
     }
 }

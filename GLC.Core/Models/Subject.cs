@@ -1,4 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.VisualBasic;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace GLC.Cores.Models
@@ -15,8 +18,8 @@ namespace GLC.Cores.Models
         [ForeignKey("Teacher")]
         public int TeacherId { get; set; }
         public  Teacher Teacher { get; set; }
-        public ICollection<Video> videos { get; set; }
-        public ICollection<Group> Groups { get; set; }
-        public ICollection<Quize> Quizes { get; set; }            
+        public ICollection<Video> videos { get; set; } = new Collection<Video>();
+        public ICollection<Group> Groups { get; set; } = new Collection<Group>();
+        public ICollection<Quiz> Quizes { get; set; } = new Collection<Quiz>();
     }
 }

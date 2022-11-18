@@ -6,9 +6,9 @@ namespace GLC.Cores.Models
     public class StudentQuizeQuestionBank
     {
         [Required]
-        [ForeignKey("Quize")]
+        [ForeignKey("Quiz")]
         public int QuizeId { get; set; }
-        public  Quize Quize { get; set; }
+        public  Quiz Quize { get; set; }
         [Required]
         [ForeignKey("Question")]
         public int QuestionId { get; set; }

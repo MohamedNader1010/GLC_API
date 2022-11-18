@@ -164,7 +164,7 @@ namespace GLC_API.Migrations
                     b.ToTable("questionCategories");
                 });
 
-            modelBuilder.Entity("GLC.Cores.Models.Quize", b =>
+            modelBuilder.Entity("GLC.Cores.Models.Quiz", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -436,7 +436,7 @@ namespace GLC_API.Migrations
                     b.Navigation("QuestionBank");
                 });
 
-            modelBuilder.Entity("GLC.Cores.Models.Quize", b =>
+            modelBuilder.Entity("GLC.Cores.Models.Quiz", b =>
                 {
                     b.HasOne("GLC.Cores.Models.Student", "Student")
                         .WithMany("Quizes")
@@ -455,7 +455,7 @@ namespace GLC_API.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("GLC.Cores.Models.Quize", null)
+                    b.HasOne("GLC.Cores.Models.Quiz", null)
                         .WithMany("QuizeQuestions")
                         .HasForeignKey("QuizeId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -511,7 +511,7 @@ namespace GLC_API.Migrations
                     b.Navigation("Chats");
                 });
 
-            modelBuilder.Entity("GLC.Cores.Models.Quize", b =>
+            modelBuilder.Entity("GLC.Cores.Models.Quiz", b =>
                 {
                     b.Navigation("QuizeQuestions");
                 });

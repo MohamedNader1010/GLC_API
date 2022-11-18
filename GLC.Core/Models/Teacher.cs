@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.VisualBasic;
+using System.Collections.ObjectModel;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace GLC.Cores.Models
@@ -29,7 +31,7 @@ namespace GLC.Cores.Models
         [Required(ErrorMessage = "This field is required.")]
         public string PhotoPath { get; set; }
         public  ChatingDetails ChatingDetails { get; set; }
-        public ICollection<Subject> subjects{ get; set; }
-        public ICollection<Video> videos { get; set; }
+        public ICollection<Subject> subjects { get; set; } = new Collection<Subject>();
+        public ICollection<Video> videos { get; set; } = new Collection<Video>();
     }
 }

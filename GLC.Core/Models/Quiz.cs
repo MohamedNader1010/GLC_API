@@ -1,9 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.ObjectModel;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace GLC.Cores.Models
 {
-    public class Quize
+    public class Quiz
     {
         [Key]
         public int Id { get; set; }
@@ -13,10 +14,10 @@ namespace GLC.Cores.Models
         public int Duration { get; set; }
         [ForeignKey("Quiz")]
         public int StudentId { get; set; }
-        public Quize Quiz { get; set; }
+        public Quiz quiz { get; set; }
         [ForeignKey("Subject")]
         public int SubjectID { get; set; }
         public  Subject Subject { get; set; }
-        public ICollection<StudentQuizeQuestionBank> QuizeQuestions { get; set; }
+        public ICollection<StudentQuizeQuestionBank> QuizeQuestions = new Collection<StudentQuizeQuestionBank>();
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.ObjectModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace GLC.Cores.Models
 {
@@ -11,7 +12,7 @@ namespace GLC.Cores.Models
         [MaxLength(5)]
         public string CorrectAnswer { get; set; }   
         public StudentQuizeQuestionBank QuizeQuestion { get; set; }
-        public ICollection <QuestionAnswer> QuestionAnswers { get; set; }
+        public ICollection<QuestionAnswer> QuestionAnswers { get; set; } = new Collection<QuestionAnswer>();
         public  QuestionCategory QuestionCategory { get; set; }  
     }
 }

@@ -13,7 +13,7 @@ namespace GLC.EF
         public virtual DbSet<StudentQuizeQuestionBank> QuizeQuestions { set; get; }
         public virtual DbSet<QuestionAnswer> QuestionAnswers { get; set; }
         public virtual DbSet<QuestionCategory>questionCategories { set; get; }
-        public virtual DbSet<Quize> Quizes { get; set; }
+        public virtual DbSet<Quiz> Quizes { get; set; }
         public virtual DbSet<QuestionBank> questionBanks { get; set; }
         public virtual DbSet<ChatingDetails> ChatingDetails { set; get; }
         public virtual DbSet<GroupChat> GroupChats { set; get; }
