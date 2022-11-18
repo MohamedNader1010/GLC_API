@@ -192,6 +192,9 @@ namespace GLC.EF.Migrations
                     b.Property<int>("Mark")
                         .HasColumnType("int");
 
+                    b.Property<int>("StudentId")
+                        .HasColumnType("int");
+
                     b.Property<int>("SubjectID")
                         .HasColumnType("int");
 
@@ -201,28 +204,11 @@ namespace GLC.EF.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("StudentId");
+
                     b.HasIndex("SubjectID");
 
                     b.ToTable("Quizes");
-                });
-
-            modelBuilder.Entity("GLC.Cores.Models.QuizeQuestion", b =>
-                {
-                    b.Property<int>("QuizeId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("QuestionID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("BankId")
-                        .HasColumnType("int");
-
-                    b.HasKey("QuizeId", "QuestionID");
-
-                    b.HasIndex("BankId")
-                        .IsUnique();
-
-                    b.ToTable("QuizeQuestions");
                 });
 
             modelBuilder.Entity("GLC.Cores.Models.Student", b =>
@@ -286,7 +272,7 @@ namespace GLC.EF.Migrations
                     b.ToTable("Students");
                 });
 
-            modelBuilder.Entity("GLC.Cores.Models.StudentQuize", b =>
+            modelBuilder.Entity("GLC.Cores.Models.StudentQuizeQuestionBank", b =>
                 {
                     b.Property<int>("StudentId")
                         .HasColumnType("int");
@@ -294,15 +280,17 @@ namespace GLC.EF.Migrations
                     b.Property<int>("QuizeId")
                         .HasColumnType("int");
 
-                    b.Property<string>("StudentAnswer")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("QuestionId")
+                        .HasColumnType("int");
 
-                    b.HasKey("StudentId", "QuizeId");
+                    b.HasKey("StudentId", "QuizeId", "QuestionId");
+
+                    b.HasIndex("QuestionId")
+                        .IsUnique();
 
                     b.HasIndex("QuizeId");
 
-                    b.ToTable("StudentQuize");
+                    b.ToTable("QuizeQuestions");
                 });
 
             modelBuilder.Entity("GLC.Cores.Models.Subject", b =>
@@ -468,32 +456,21 @@ namespace GLC.EF.Migrations
 
             modelBuilder.Entity("GLC.Cores.Models.Quize", b =>
                 {
+                    b.HasOne("GLC.Cores.Models.Quize", "Quiz")
+                        .WithMany()
+                        .HasForeignKey("StudentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("GLC.Cores.Models.Subject", "Subject")
                         .WithMany("Quizes")
                         .HasForeignKey("SubjectID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.Navigation("Quiz");
+
                     b.Navigation("Subject");
-                });
-
-            modelBuilder.Entity("GLC.Cores.Models.QuizeQuestion", b =>
-                {
-                    b.HasOne("GLC.Cores.Models.QuestionBank", "Question")
-                        .WithOne("QuizeQuestion")
-                        .HasForeignKey("GLC.Cores.Models.QuizeQuestion", "BankId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("GLC.Cores.Models.Quize", "Quize")
-                        .WithMany("QuizeQuestions")
-                        .HasForeignKey("QuizeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Question");
-
-                    b.Navigation("Quize");
                 });
 
             modelBuilder.Entity("GLC.Cores.Models.Student", b =>
@@ -507,19 +484,27 @@ namespace GLC.EF.Migrations
                     b.Navigation("Group");
                 });
 
-            modelBuilder.Entity("GLC.Cores.Models.StudentQuize", b =>
+            modelBuilder.Entity("GLC.Cores.Models.StudentQuizeQuestionBank", b =>
                 {
+                    b.HasOne("GLC.Cores.Models.QuestionBank", "Question")
+                        .WithOne("QuizeQuestion")
+                        .HasForeignKey("GLC.Cores.Models.StudentQuizeQuestionBank", "QuestionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("GLC.Cores.Models.Quize", "Quize")
-                        .WithMany()
+                        .WithMany("QuizeQuestions")
                         .HasForeignKey("QuizeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("GLC.Cores.Models.Student", "Student")
-                        .WithMany("studentQuizes")
+                        .WithMany("Quizes")
                         .HasForeignKey("StudentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Question");
 
                     b.Navigation("Quize");
 
@@ -587,7 +572,7 @@ namespace GLC.EF.Migrations
                     b.Navigation("ChatingDetail")
                         .IsRequired();
 
-                    b.Navigation("studentQuizes");
+                    b.Navigation("Quizes");
                 });
 
             modelBuilder.Entity("GLC.Cores.Models.Subject", b =>

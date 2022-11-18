@@ -38,9 +38,9 @@ namespace GLC.Cores.Models
         public string Gender { get; set; }
         [ForeignKey("Group")]
         public int GroupID { get; set; }
-        public virtual Group Group { get; set; }
-        public ICollection<StudentQuize> studentQuizes { get; set; }
-        public virtual ChatingDetails ChatingDetail { set; get; }
+        public  Group Group { get; set; }
+        public ICollection<StudentQuizeQuestionBank> Quizes { get; set; }
+        public  ChatingDetails ChatingDetail { set; get; }
 
     }
 }

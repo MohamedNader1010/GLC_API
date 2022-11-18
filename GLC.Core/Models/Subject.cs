@@ -14,7 +14,7 @@ namespace GLC.Cores.Models
         public int Level { get; set; }
         [ForeignKey("Teacher")]
         public int TeacherId { get; set; }
-        public virtual Teacher Teacher { get; set; }
+        public  Teacher Teacher { get; set; }
         public ICollection<Video> videos { get; set; }
         public ICollection<Group> Groups { get; set; }
         public ICollection<Quize> Quizes { get; set; }            

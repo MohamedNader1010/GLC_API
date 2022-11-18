@@ -10,8 +10,8 @@ namespace GLC.Cores.Models
         public int Level { get; set; }
         [MaxLength(5)]
         public string CorrectAnswer { get; set; }   
-        public virtual QuizeQuestion QuizeQuestion { get; set; }
+        public StudentQuizeQuestionBank QuizeQuestion { get; set; }
         public ICollection <QuestionAnswer> QuestionAnswers { get; set; }
-        public virtual QuestionCategory QuestionCategory { get; set; }  
+        public  QuestionCategory QuestionCategory { get; set; }  
     }
 }

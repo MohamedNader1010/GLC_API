@@ -13,7 +13,7 @@ namespace GLC.Cores.Models
         public int NumOfStudents { get; set; }
         [ForeignKey("Subject")]
         public int SubjectId { get; set; }
-        public virtual Subject Subject { get; set; }
+        public  Subject Subject { get; set; }
         public bool Availability { get; set; }
        public ICollection<Student> Students { get; set; }
     }

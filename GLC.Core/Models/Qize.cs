@@ -11,10 +11,12 @@ namespace GLC.Cores.Models
         public int Mark { get; set; }
         public string Date { get; set; }
         public int Duration { get; set; }
- 
-          [ForeignKey("Subject")]
+        [ForeignKey("Quiz")]
+        public int StudentId { get; set; }
+        public Quize Quiz { get; set; }
+        [ForeignKey("Subject")]
         public int SubjectID { get; set; }
-        public virtual Subject Subject { get; set; }
-        public ICollection<QuizeQuestion> QuizeQuestions { get; set; }
+        public  Subject Subject { get; set; }
+        public ICollection<StudentQuizeQuestionBank> QuizeQuestions { get; set; }
     }
 }

@@ -28,7 +28,7 @@ namespace GLC.Cores.Models
         public string School { get; set; }
         [Required(ErrorMessage = "This field is required.")]
         public string PhotoPath { get; set; }
-        public virtual ChatingDetails ChatingDetails { get; set; }
+        public  ChatingDetails ChatingDetails { get; set; }
         public ICollection<Subject> subjects{ get; set; }
         public ICollection<Video> videos { get; set; }
     }

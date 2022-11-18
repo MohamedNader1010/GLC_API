@@ -12,6 +12,6 @@ namespace GLC.Cores.Models
         [ForeignKey("QuestionBank")]
         [Required]
         public int QuestionBankId { get; set; }
-        public virtual QuestionBank QuestionBank { get; set; }
+        public  QuestionBank QuestionBank { get; set; }
     }
 }

@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Conventions;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -152,17 +151,24 @@ namespace GLC.EF.Migrations
                     Mark = table.Column<int>(type: "int", nullable: false),
                     Date = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Duration = table.Column<int>(type: "int", nullable: false),
+                    StudentId = table.Column<int>(type: "int", nullable: false),
                     SubjectID = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Quizes", x => x.Id);
                     table.ForeignKey(
+                        name: "FK_Quizes_Quizes_StudentId",
+                        column: x => x.StudentId,
+                        principalTable: "Quizes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.NoAction);
+                    table.ForeignKey(
                         name: "FK_Quizes_Subjects_SubjectID",
                         column: x => x.SubjectID,
                         principalTable: "Subjects",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateTable(
@@ -185,7 +191,7 @@ namespace GLC.EF.Migrations
                         column: x => x.SubjectId,
                         principalTable: "Subjects",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Videos_Teachers_TeacherId",
                         column: x => x.TeacherId,
@@ -225,31 +231,6 @@ namespace GLC.EF.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "QuizeQuestions",
-                columns: table => new
-                {
-                    QuizeId = table.Column<int>(type: "int", nullable: false),
-                    QuestionID = table.Column<int>(type: "int", nullable: false),
-                    BankId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_QuizeQuestions", x => new { x.QuizeId, x.QuestionID });
-                    table.ForeignKey(
-                        name: "FK_QuizeQuestions_questionBanks_BankId",
-                        column: x => x.BankId,
-                        principalTable: "questionBanks",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_QuizeQuestions_Quizes_QuizeId",
-                        column: x => x.QuizeId,
-                        principalTable: "Quizes",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "ChatingDetails",
                 columns: table => new
                 {
@@ -282,24 +263,30 @@ namespace GLC.EF.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "StudentQuize",
+                name: "QuizeQuestions",
                 columns: table => new
                 {
-                    StudentId = table.Column<int>(type: "int", nullable: false),
                     QuizeId = table.Column<int>(type: "int", nullable: false),
-                    StudentAnswer = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    QuestionId = table.Column<int>(type: "int", nullable: false),
+                    StudentId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_StudentQuize", x => new { x.StudentId, x.QuizeId });
+                    table.PrimaryKey("PK_QuizeQuestions", x => new { x.StudentId, x.QuizeId, x.QuestionId });
                     table.ForeignKey(
-                        name: "FK_StudentQuize_Quizes_QuizeId",
+                        name: "FK_QuizeQuestions_questionBanks_QuestionId",
+                        column: x => x.QuestionId,
+                        principalTable: "questionBanks",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_QuizeQuestions_Quizes_QuizeId",
                         column: x => x.QuizeId,
                         principalTable: "Quizes",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_StudentQuize_Students_StudentId",
+                        name: "FK_QuizeQuestions_Students_StudentId",
                         column: x => x.StudentId,
                         principalTable: "Students",
                         principalColumn: "Id",
@@ -340,20 +327,25 @@ namespace GLC.EF.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_QuizeQuestions_BankId",
+                name: "IX_QuizeQuestions_QuestionId",
                 table: "QuizeQuestions",
-                column: "BankId",
+                column: "QuestionId",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_QuizeQuestions_QuizeId",
+                table: "QuizeQuestions",
+                column: "QuizeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Quizes_StudentId",
+                table: "Quizes",
+                column: "StudentId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Quizes_SubjectID",
                 table: "Quizes",
                 column: "SubjectID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_StudentQuize_QuizeId",
-                table: "StudentQuize",
-                column: "QuizeId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Students_GroupID",
@@ -389,9 +381,6 @@ namespace GLC.EF.Migrations
 
             migrationBuilder.DropTable(
                 name: "QuizeQuestions");
-
-            migrationBuilder.DropTable(
-                name: "StudentQuize");
 
             migrationBuilder.DropTable(
                 name: "Videos");
