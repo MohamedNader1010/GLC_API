@@ -10,7 +10,7 @@ namespace GLC.EF
         public virtual DbSet<Subject> Subjects { get; set; }
         public virtual DbSet<Group> Groups { set; get; }
         public virtual DbSet<Video>Videos { set; get; }
-        public virtual DbSet<StudentQuizeQuestionBank> StudentQuizeQuestionBanks { set; get; }
+        public virtual DbSet<StudentQuize> StudentQuize { set; get; }
         public virtual DbSet<QuizeQuestion> QuizeQuestions { set; get; }
         public virtual DbSet<QuestionAnswer> QuestionAnswers { get; set; }
         public virtual DbSet<QuestionCategory>questionCategories { set; get; }
@@ -32,10 +32,9 @@ namespace GLC.EF
                 table.TeacherId,
             });
 
-            builder.Entity<StudentQuizeQuestionBank>().HasKey(table => new
+            builder.Entity<StudentQuize>().HasKey(table => new
             {
                 table.StudentId,
-                table.QuestionBankId,
                 table.QuizeId,
             });
             builder.Entity<QuizeQuestion>().HasKey(table => new
