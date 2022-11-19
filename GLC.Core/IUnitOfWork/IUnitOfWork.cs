@@ -1,5 +1,5 @@
 ﻿using GLC.Core.IRepositories;
-using GLC.Core.Models;
+using GLC.Cores.Models;
 
 namespace GLC.Core.IUnitOfWork
 {
@@ -7,7 +7,7 @@ namespace GLC.Core.IUnitOfWork
     {
         // Add your Models here with ONLY <get> property.
         // **** Assume that we have Students Model ****
-        IGenericRepository<Students> Students { get; }
+        IGenericRepository<Student> Students { get; }
 
         //int Complete(); implement SaveChanges()
         //void Complete();

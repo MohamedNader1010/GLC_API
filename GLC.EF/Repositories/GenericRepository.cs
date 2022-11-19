@@ -1,5 +1,6 @@
 ﻿using GLC.Core.IRepositories;
 using System.Linq.Expressions;
+using GLC.Cores.Models;
 
 namespace GLC.EF.Repositories
 {

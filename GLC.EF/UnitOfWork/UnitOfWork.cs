@@ -1,6 +1,6 @@
 ﻿using GLC.Core.IRepositories;
 using GLC.Core.IUnitOfWork;
-using GLC.Core.Models;
+using GLC.Cores.Models;
 using GLC.EF.Repositories;
 
 namespace GLC.EF.UnitOfWork
@@ -10,12 +10,12 @@ namespace GLC.EF.UnitOfWork
         private readonly GLCDbContext _context;
 
         // add all your models here as the line below.
-        public IGenericRepository<Students> Students { get; private set; }
+        public IGenericRepository<Student> Students { get; private set; }
         public UnitOfWork(GLCDbContext context)
         {
             this._context = context;
             // initialize all the models as the line below.
-            Students = new GenericRepository<Students>(_context);
+            Students = new GenericRepository<Student>(_context);
         }
         public async Task<int> CompeteAsync()
         {
