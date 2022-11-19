@@ -23,6 +23,7 @@ namespace GLC.EF.Migrations
             migrationBuilder.Sql("insert into Teachers(Name,Age,Email,Password,Phone,School)\r\nvalues('Hussein',25,'hussein@gmail.com','11225','01023444440','ShibineelKom')");
             migrationBuilder.Sql("insert into Teachers(Name,Age,Email,Password,Phone,School)\r\nvalues('Omar',28,'omar@gmail.com','100','01000252256','Cairo')");
             migrationBuilder.Sql("insert into Teachers(Name,Age,Email,Password,Phone,School)\r\nvalues('Nader',25,'Nader@gmail.com','2561','0111556545656','SelimeZohny')");
+
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
