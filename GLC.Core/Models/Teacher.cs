@@ -8,30 +8,22 @@ namespace GLC.Cores.Models
     public class Teacher
     {
         [Key]
-        public int Id { get; set; }
+        public Guid TeacherId { get; set; }
         [MaxLength(50)]
-        [Required(ErrorMessage = "This field is required.")]
 
-        public string Name { get; set; }
-        [Required(ErrorMessage = "This field is required.")]
-        public int Age { get; set; }
-        [Required(ErrorMessage = "The Email field is required.")]
+        public string? Name { get; set; }
+        public int? Age { get; set; }
         [EmailAddress(ErrorMessage = "The Email field is not a valid e-mail address.")]
-        public string Email { get; set; }
-        [Required(ErrorMessage = "This field is required.")]
+        public string ?Email { get; set; }
         [NotMapped]
-        public string ConfirmPassword { get; set; }
-        [Required(ErrorMessage = "This field is required.")]
+        public string ?ConfirmPassword { get; set; }
 
-        public string Password { get; set; }
-        [Required(ErrorMessage = "This field is required.")]
-        public string Phone { get; set; } 
-        [Required(ErrorMessage = "This field is required.")]
-        public string School { get; set; }
-        [Required(ErrorMessage = "This field is required.")]
-        public string PhotoPath { get; set; }
-        public  ChatingDetails ChatingDetails { get; set; }
+        public string ?Password { get; set; }
+        public string? Phone { get; set; } 
+        public string? School { get; set; }
+        public byte[]? PhotoPath { get; set; }
+        public ICollection<ChatingDetails>ChatingDetails { get; set; }=new Collection<ChatingDetails>();
         public ICollection<Subject> subjects { get; set; } = new Collection<Subject>();
-        public ICollection<Video> videos { get; set; } = new Collection<Video>();
+        public ICollection<Video> videos { get; set; } = new Collection<Video>();  
     }
 }

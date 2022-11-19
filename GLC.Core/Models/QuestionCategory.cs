@@ -6,12 +6,12 @@ namespace GLC.Cores.Models
     public class QuestionCategory
     {
         [Key]
-        public int Id { get; set; }
+        public Guid QuestionCategoryId { get; set; }
         [MaxLength(10)]
         public string Category { get; set; }
         [ForeignKey("QuestionBank")]
-        [Required]
-        public int QuestionBankId { get; set; }
+        public Guid?QuestionBankId { get; set; }
         public  QuestionBank QuestionBank { get; set; }
+
     }
 }

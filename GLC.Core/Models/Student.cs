@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.ObjectModel;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace GLC.Cores.Models
@@ -6,41 +7,37 @@ namespace GLC.Cores.Models
     public class Student
     {
         [Key]
-        public int Id { get; set; }
+        public Guid StudentId { get; set; } = Guid.NewGuid();
         [MaxLength(50)]
+        
         public string Name { get; set; }
-        [Required(ErrorMessage = "This field is required.")]
+       
         [EmailAddress(ErrorMessage = "The Email field is not a valid e-mail address.")]
-        public int Email { get; set; }
-        [Required(ErrorMessage = "This field is required.")]
-        public int parcode { get; set; }
-        [Required(ErrorMessage = "This field is required.")]
-        public string ImageFile { get; set; }
-        [Required(ErrorMessage = "This field is required.")]
-        public string Password { get; set; }
+        public string Email { get; set; }
+        public string? barcode { get; set; }
+        public byte[]? Image { get; set; }
+        public string? Password { get; set; }
         [NotMapped]
-        [Required(ErrorMessage = "This field is required.")]
 
-        public string ConfirmPassword { get; set; }
-        [Required(ErrorMessage = "This field is required.")]
+        public string ?ConfirmPassword { get; set; }
         [MaxLength(55)]
-        public string Address { get; set; }
-        [Required(ErrorMessage = "This field is required.")]
-        public string ParentEmail { get; set; }
-        [Required(ErrorMessage = "This field is required.")]
+        public string? Address { get; set; }
+        public string? ParentEmail { get; set; }
         public int Age { get; set; }
-        [Required(ErrorMessage = "This field is required.")]
         public int Level { get; set; }
-        [Required(ErrorMessage = "This field is required.")]
         [MaxLength(11)]
-        public string Phone { get; set; }
-        [Required(ErrorMessage = "This field is required.")]
+        public string? Phone { get; set; }
         public string Gender { get; set; }
         [ForeignKey("Group")]
-        public int GroupID { get; set; }
+        public Guid? GroupID { get; set; }
         public  Group Group { get; set; }
-        public ICollection<StudentQuizeQuestionBank> Quizes { get; set; }
-        public  ChatingDetails ChatingDetail { set; get; }
+        public ICollection<StudentQuizeQuestionBank> Quizes { get; set; } = new Collection<StudentQuizeQuestionBank>();
+        public ICollection<ChatingDetails> ChatingDetails { get; set; } = new Collection<ChatingDetails>();
+        public DateTime AssignDate { get; set; }
 
+        //public Student()
+        //{
+        //    StudentId = Guid.NewGuid();
+        //}
     }
 }

@@ -6,13 +6,14 @@ namespace GLC.Cores.Models
     public class QuestionBank
     {
         [Key]
-        public int Id { get; set; }
+        public Guid QuestionId { get; set; }
         public int QuestionMark { get; set; }
         public int Level { get; set; }
-        [MaxLength(5)]
-        public string CorrectAnswer { get; set; }   
-        public StudentQuizeQuestionBank QuizeQuestion { get; set; }
+        [MaxLength(50)]
+        public string CorrectAnswer { get; set; }
+        public ICollection<StudentQuizeQuestionBank> QuizeQuestion { get; set; } = new Collection<StudentQuizeQuestionBank>();
         public ICollection<QuestionAnswer> QuestionAnswers { get; set; } = new Collection<QuestionAnswer>();
-        public  QuestionCategory QuestionCategory { get; set; }  
+        public ICollection<QuestionCategory> QuestionCategory { get; set; } = new Collection<QuestionCategory>();
+
     }
 }

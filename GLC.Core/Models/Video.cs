@@ -6,16 +6,18 @@ namespace GLC.Cores.Models
     public class Video
     {
         [Key]
-        public int Id { get; set; }
+        public Guid VideoId { get; set; }
         public string Title { get; set; }
         public int Level { get; set; }
+        public string MainSection { get; set; }
+        public string MainSubject { get; set; }
         public string Link { get; set; }
         [ForeignKey("Teacher")]
-        public int TeacherId { get; set; }
-        public  Teacher Teacher { get; set; }
+        public Guid? TeacherId { get; set; }
+        public Teacher Teacher { get; set; }
 
         [ForeignKey("Subject")]
-        public int SubjectId { get; set; }
+        public Guid? SubjectId { get; set; }
         public  Subject Subject { get; set; }
     }
 }

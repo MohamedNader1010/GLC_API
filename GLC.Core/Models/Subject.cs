@@ -9,17 +9,18 @@ namespace GLC.Cores.Models
     public class Subject
     {
         [Key]
-        public int Id { get; set; }
+        public Guid SubjectId { get; set; }
         [MaxLength(20)]
         [Required]
         public string Name { get; set; }
         [Required]
         public int Level { get; set; }
         [ForeignKey("Teacher")]
-        public int TeacherId { get; set; }
+        public Guid? TeacherId { get; set; }
         public  Teacher Teacher { get; set; }
         public ICollection<Video> videos { get; set; } = new Collection<Video>();
         public ICollection<Group> Groups { get; set; } = new Collection<Group>();
         public ICollection<Quiz> Quizes { get; set; } = new Collection<Quiz>();
+
     }
 }

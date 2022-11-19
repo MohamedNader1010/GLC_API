@@ -6,14 +6,16 @@ namespace GLC.Cores.Models
     public class ChatingDetails
     {
         [ForeignKey("Student")]
-        public int StId { get; set; }
+        public Guid? StId { get; set; }
         public  Student Student { get; set; }
         [ForeignKey("GroupChat")]
-        public int GroupChatId { get; set; }
+        public Guid? GroupChatId { get; set; }
         public  GroupChat GroupChat{ get; set; }
-        public int GroupId { get; set; }
+        [ForeignKey("group")]
+        public Guid ?GroupId { get; set; }
+        public Group group { get; set; }
         [ForeignKey("Teacher")]
-        public int TeacherId { get; set; }
+        public Guid? TeacherId { get; set; }
         public  Teacher Teacher { get; set; }
     }
 }

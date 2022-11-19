@@ -4,16 +4,18 @@ using GLC.EF;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace GLC_API.Migrations
+namespace GLC.EF.Migrations
 {
     [DbContext(typeof(GLCDbContext))]
-    partial class GLCDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221119180129_StudentAndTeacherSeeding")]
+    partial class StudentAndTeacherSeeding
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -24,35 +26,41 @@ namespace GLC_API.Migrations
 
             modelBuilder.Entity("GLC.Cores.Models.ChatingDetails", b =>
                 {
-                    b.Property<int>("StId")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("StId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("GroupChatId")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("GroupChatId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("GroupId")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("GroupId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("TeacherId")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("TeacherId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("StId", "GroupChatId", "GroupId", "TeacherId");
 
                     b.HasIndex("GroupChatId");
+
+                    b.HasIndex("GroupId");
+
+                    b.HasIndex("TeacherId");
 
                     b.ToTable("ChatingDetails");
                 });
 
             modelBuilder.Entity("GLC.Cores.Models.Group", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("GroupId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValueSql("newsequentialid()");
 
                     b.Property<bool>("Availability")
                         .HasColumnType("bit");
+
+                    b.Property<int>("Capacity")
+                        .HasColumnType("int");
 
                     b.Property<string>("Day")
                         .IsRequired()
@@ -65,27 +73,35 @@ namespace GLC_API.Migrations
                     b.Property<int>("NumOfStudents")
                         .HasColumnType("int");
 
-                    b.Property<int>("SubjectId")
-                        .HasColumnType("int");
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("SubjectId")
+                        .IsRequired()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("TeacherID")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("To")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("GroupId");
 
                     b.HasIndex("SubjectId");
+
+                    b.HasIndex("TeacherID");
 
                     b.ToTable("Groups");
                 });
 
             modelBuilder.Entity("GLC.Cores.Models.GroupChat", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("GroupChatId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValueSql("newsequentialid()");
 
                     b.Property<string>("Message")
                         .IsRequired()
@@ -94,40 +110,43 @@ namespace GLC_API.Migrations
                     b.Property<int>("level")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.HasKey("GroupChatId");
 
                     b.ToTable("GroupChats");
                 });
 
             modelBuilder.Entity("GLC.Cores.Models.QuestionAnswer", b =>
                 {
-                    b.Property<int>("QuestionId")
+                    b.Property<Guid>("QuestionAnswerId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("QuestionId"), 1L, 1);
-
-                    b.Property<int>("BankId")
-                        .HasColumnType("int");
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValueSql("newsequentialid()");
 
                     b.Property<string>("QuestionAnsWer")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("QuestionId");
+                    b.Property<Guid?>("QuestionId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.HasIndex("BankId");
+                    b.HasKey("QuestionAnswerId");
+
+                    b.HasIndex("QuestionId");
 
                     b.ToTable("QuestionAnswers");
                 });
 
             modelBuilder.Entity("GLC.Cores.Models.QuestionBank", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("QuestionId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValueSql("newsequentialid()");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    b.Property<string>("CorrectAnswer")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<int>("Level")
                         .HasColumnType("int");
@@ -135,27 +154,28 @@ namespace GLC_API.Migrations
                     b.Property<int>("QuestionMark")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.HasKey("QuestionId");
 
                     b.ToTable("questionBanks");
                 });
 
             modelBuilder.Entity("GLC.Cores.Models.QuestionCategory", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("QuestionCategoryId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValueSql("newsequentialid()");
 
                     b.Property<string>("Category")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
 
-                    b.Property<int>("QuestionBankId")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("QuestionBankId")
+                        .IsRequired()
+                        .HasColumnType("uniqueidentifier");
 
-                    b.HasKey("Id");
+                    b.HasKey("QuestionCategoryId");
 
                     b.HasIndex("QuestionBankId");
 
@@ -164,11 +184,10 @@ namespace GLC_API.Migrations
 
             modelBuilder.Entity("GLC.Cores.Models.Quiz", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("QuizId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValueSql("newsequentialid()");
 
                     b.Property<string>("Date")
                         .IsRequired()
@@ -177,92 +196,87 @@ namespace GLC_API.Migrations
                     b.Property<int>("Duration")
                         .HasColumnType("int");
 
+                    b.Property<int>("Level")
+                        .HasColumnType("int");
+
                     b.Property<int>("Mark")
                         .HasColumnType("int");
 
-                    b.Property<int>("StudentId")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("StudentId")
+                        .IsRequired()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("SubjectID")
+                        .IsRequired()
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Type")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("QuizId");
 
                     b.HasIndex("StudentId");
+
+                    b.HasIndex("SubjectID");
 
                     b.ToTable("Quizes");
                 });
 
-            modelBuilder.Entity("GLC.Cores.Models.QuizeQuestion", b =>
-                {
-                    b.Property<int>("QuizeId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("QuestionID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("BankId")
-                        .HasColumnType("int");
-
-                    b.HasKey("QuizeId", "QuestionID");
-
-                    b.HasIndex("BankId");
-
-                    b.ToTable("QuizeQuestions");
-                });
-
             modelBuilder.Entity("GLC.Cores.Models.Student", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("StudentId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValueSql("newsequentialid()");
 
                     b.Property<string>("Address")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(55)
+                        .HasColumnType("nvarchar(55)");
 
                     b.Property<int>("Age")
                         .HasColumnType("int");
 
-                    b.Property<int>("Email")
-                        .HasColumnType("int");
+                    b.Property<DateTime>("AssignDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Gender")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("GroupID")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ImageFile")
+                    b.Property<Guid?>("GroupID")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<byte[]>("Image")
+                        .HasColumnType("varbinary(max)");
 
                     b.Property<int>("Level")
                         .HasColumnType("int");
 
-                    b.Property<int>("Name")
-                        .HasColumnType("int");
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("ParentEmail")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Password")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Phone")
-                        .IsRequired()
+                        .HasMaxLength(11)
+                        .HasColumnType("nvarchar(11)");
+
+                    b.Property<string>("barcode")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("parcode")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
+                    b.HasKey("StudentId");
 
                     b.HasIndex("GroupID");
 
@@ -271,43 +285,44 @@ namespace GLC_API.Migrations
 
             modelBuilder.Entity("GLC.Cores.Models.StudentQuizeQuestionBank", b =>
                 {
-                    b.Property<int>("StudentId")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("StudentId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("QuestionBankId")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("QuizeId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("QuizeId")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("QuestionId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Answer")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.HasKey("StudentId", "QuizeId", "QuestionId");
 
-                    b.HasKey("StudentId", "QuestionBankId", "QuizeId");
+                    b.HasIndex("QuestionId");
 
-                    b.ToTable("StudentQuizeQuestionBanks");
+                    b.HasIndex("QuizeId");
+
+                    b.ToTable("QuizeQuestions");
                 });
 
             modelBuilder.Entity("GLC.Cores.Models.Subject", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("SubjectId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValueSql("newsequentialid()");
 
                     b.Property<int>("Level")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
-                    b.Property<int>("TeacherId")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("TeacherId")
+                        .IsRequired()
+                        .HasColumnType("uniqueidentifier");
 
-                    b.HasKey("Id");
+                    b.HasKey("SubjectId");
 
                     b.HasIndex("TeacherId");
 
@@ -316,55 +331,44 @@ namespace GLC_API.Migrations
 
             modelBuilder.Entity("GLC.Cores.Models.Teacher", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("TeacherId")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValueSql("newsequentialid()");
+
+                    b.Property<int?>("Age")
                         .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int>("Age")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ConfirmPassword")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Email")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Password")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Phone")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("PhotoPath")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<byte[]>("PhotoPath")
+                        .HasColumnType("varbinary(max)");
 
                     b.Property<string>("School")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("TeacherId");
 
                     b.ToTable("Teachers");
                 });
 
             modelBuilder.Entity("GLC.Cores.Models.Video", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("VideoId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValueSql("newsequentialid()");
 
                     b.Property<int>("Level")
                         .HasColumnType("int");
@@ -373,17 +377,27 @@ namespace GLC_API.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("SubjectId")
-                        .HasColumnType("int");
+                    b.Property<string>("MainSection")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("TeacherId")
-                        .HasColumnType("int");
+                    b.Property<string>("MainSubject")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("SubjectId")
+                        .IsRequired()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("TeacherId")
+                        .IsRequired()
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("VideoId");
 
                     b.HasIndex("SubjectId");
 
@@ -394,11 +408,37 @@ namespace GLC_API.Migrations
 
             modelBuilder.Entity("GLC.Cores.Models.ChatingDetails", b =>
                 {
-                    b.HasOne("GLC.Cores.Models.GroupChat", null)
+                    b.HasOne("GLC.Cores.Models.GroupChat", "GroupChat")
                         .WithMany("Chats")
                         .HasForeignKey("GroupChatId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("GLC.Cores.Models.Group", "group")
+                        .WithMany("ChatingDetails")
+                        .HasForeignKey("GroupId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("GLC.Cores.Models.Student", "Student")
+                        .WithMany("ChatingDetails")
+                        .HasForeignKey("StId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("GLC.Cores.Models.Teacher", "Teacher")
+                        .WithMany("ChatingDetails")
+                        .HasForeignKey("TeacherId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("GroupChat");
+
+                    b.Navigation("Student");
+
+                    b.Navigation("Teacher");
+
+                    b.Navigation("group");
                 });
 
             modelBuilder.Entity("GLC.Cores.Models.Group", b =>
@@ -409,16 +449,20 @@ namespace GLC_API.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("GLC.Cores.Models.Teacher", "Teacher")
+                        .WithMany()
+                        .HasForeignKey("TeacherID");
+
                     b.Navigation("Subject");
+
+                    b.Navigation("Teacher");
                 });
 
             modelBuilder.Entity("GLC.Cores.Models.QuestionAnswer", b =>
                 {
                     b.HasOne("GLC.Cores.Models.QuestionBank", "QuestionBank")
-                        .WithMany()
-                        .HasForeignKey("BankId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany("QuestionAnswers")
+                        .HasForeignKey("QuestionId");
 
                     b.Navigation("QuestionBank");
                 });
@@ -426,7 +470,7 @@ namespace GLC_API.Migrations
             modelBuilder.Entity("GLC.Cores.Models.QuestionCategory", b =>
                 {
                     b.HasOne("GLC.Cores.Models.QuestionBank", "QuestionBank")
-                        .WithMany()
+                        .WithMany("QuestionCategory")
                         .HasForeignKey("QuestionBankId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -437,29 +481,20 @@ namespace GLC_API.Migrations
             modelBuilder.Entity("GLC.Cores.Models.Quiz", b =>
                 {
                     b.HasOne("GLC.Cores.Models.Student", "Student")
-                        .WithMany("Quizes")
+                        .WithMany()
                         .HasForeignKey("StudentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("GLC.Cores.Models.Subject", "Subject")
+                        .WithMany("Quizes")
+                        .HasForeignKey("SubjectID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Student");
-                });
 
-            modelBuilder.Entity("GLC.Cores.Models.QuizeQuestion", b =>
-                {
-                    b.HasOne("GLC.Cores.Models.QuestionBank", "Question")
-                        .WithMany()
-                        .HasForeignKey("BankId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("GLC.Cores.Models.Quiz", null)
-                        .WithMany("QuizeQuestions")
-                        .HasForeignKey("QuizeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Question");
+                    b.Navigation("Subject");
                 });
 
             modelBuilder.Entity("GLC.Cores.Models.Student", b =>
@@ -471,6 +506,33 @@ namespace GLC_API.Migrations
                         .IsRequired();
 
                     b.Navigation("Group");
+                });
+
+            modelBuilder.Entity("GLC.Cores.Models.StudentQuizeQuestionBank", b =>
+                {
+                    b.HasOne("GLC.Cores.Models.QuestionBank", "Question")
+                        .WithMany("QuizeQuestion")
+                        .HasForeignKey("QuestionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("GLC.Cores.Models.Quiz", "Quize")
+                        .WithMany()
+                        .HasForeignKey("QuizeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("GLC.Cores.Models.Student", "Student")
+                        .WithMany("Quizes")
+                        .HasForeignKey("StudentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Question");
+
+                    b.Navigation("Quize");
+
+                    b.Navigation("Student");
                 });
 
             modelBuilder.Entity("GLC.Cores.Models.Subject", b =>
@@ -486,9 +548,11 @@ namespace GLC_API.Migrations
 
             modelBuilder.Entity("GLC.Cores.Models.Video", b =>
                 {
-                    b.HasOne("GLC.Cores.Models.Subject", null)
+                    b.HasOne("GLC.Cores.Models.Subject", "Subject")
                         .WithMany("videos")
-                        .HasForeignKey("SubjectId");
+                        .HasForeignKey("SubjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("GLC.Cores.Models.Teacher", "Teacher")
                         .WithMany("videos")
@@ -496,11 +560,15 @@ namespace GLC_API.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.Navigation("Subject");
+
                     b.Navigation("Teacher");
                 });
 
             modelBuilder.Entity("GLC.Cores.Models.Group", b =>
                 {
+                    b.Navigation("ChatingDetails");
+
                     b.Navigation("Students");
                 });
 
@@ -509,13 +577,19 @@ namespace GLC_API.Migrations
                     b.Navigation("Chats");
                 });
 
-            modelBuilder.Entity("GLC.Cores.Models.Quiz", b =>
+            modelBuilder.Entity("GLC.Cores.Models.QuestionBank", b =>
                 {
-                    b.Navigation("QuizeQuestions");
+                    b.Navigation("QuestionAnswers");
+
+                    b.Navigation("QuestionCategory");
+
+                    b.Navigation("QuizeQuestion");
                 });
 
             modelBuilder.Entity("GLC.Cores.Models.Student", b =>
                 {
+                    b.Navigation("ChatingDetails");
+
                     b.Navigation("Quizes");
                 });
 
@@ -523,11 +597,15 @@ namespace GLC_API.Migrations
                 {
                     b.Navigation("Groups");
 
+                    b.Navigation("Quizes");
+
                     b.Navigation("videos");
                 });
 
             modelBuilder.Entity("GLC.Cores.Models.Teacher", b =>
                 {
+                    b.Navigation("ChatingDetails");
+
                     b.Navigation("subjects");
 
                     b.Navigation("videos");

@@ -7,17 +7,19 @@ namespace GLC.Cores.Models
     public class Quiz
     {
         [Key]
-        public int Id { get; set; }
+        public Guid QuizId { get; set; }
         public string Type { get; set; }
         public int Mark { get; set; }
+        public int Level { get; set; }
         public string Date { get; set; }
         public int Duration { get; set; }
-        [ForeignKey("Quiz")]
-        public int StudentId { get; set; }
-        public Quiz quiz { get; set; }
+        [ForeignKey("Student")]
+        public Guid? StudentId { get; set; }
+        public Student Student { get; set; }
         [ForeignKey("Subject")]
-        public int SubjectID { get; set; }
+        public Guid? SubjectID { get; set; }
         public  Subject Subject { get; set; }
         public ICollection<StudentQuizeQuestionBank> QuizeQuestions = new Collection<StudentQuizeQuestionBank>();
+
     }
 }
