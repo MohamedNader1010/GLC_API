@@ -2,14 +2,14 @@
 
 namespace GLC.Core.IRepositories
 {
-    public interface IGenericRepository<TEntity> where TEntity : class
+    public interface IGenericRepository<TEntity, TEntityResource> where TEntity : class where TEntityResource : class
     {
-        Task<TEntity> GetByIdAsync(int id);
-        Task<TEntity> GetByEmailAsync(string email);
-
-        Task<IAsyncEnumerable<TEntity>> GetAllAsync();
-        Task<TEntity> Find(Expression<Func<TEntity, bool>> predicate);
-
+        Task<TEntityResource> GetByIdAsync(Guid id);
+        Task<IEnumerable<TEntityResource>> GetAllAsync();
+        Task<TEntityResource> FindAsync(Expression<Func<TEntity, bool>> predicate);
+        Task<TEntityResource> AddAsync(TEntityResource entity);
+        Task<TEntityResource> UpdateAsync(Guid id, TEntityResource entity);
+        Task<TEntityResource> DeleteAsync(Guid id);
 
     }
 }

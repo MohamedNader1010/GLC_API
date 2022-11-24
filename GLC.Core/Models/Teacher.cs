@@ -22,7 +22,7 @@ namespace GLC.Cores.Models
         public string? Phone { get; set; } 
         public string? School { get; set; }
         public byte[]? PhotoPath { get; set; }
-        public ICollection<ChatingDetails>ChatingDetails { get; set; }=new Collection<ChatingDetails>();
+        public ICollection<ChattingDetails>ChatingDetails { get; set; }=new Collection<ChattingDetails>();
         public ICollection<Subject> subjects { get; set; } = new Collection<Subject>();
         public ICollection<Video> videos { get; set; } = new Collection<Video>();  
     }

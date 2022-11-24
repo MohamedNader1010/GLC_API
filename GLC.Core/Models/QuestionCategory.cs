@@ -11,7 +11,7 @@ namespace GLC.Cores.Models
         public string Category { get; set; }
         [ForeignKey("QuestionBank")]
         public Guid?QuestionBankId { get; set; }
-        public  QuestionBank QuestionBank { get; set; }
+        public  QuestionBank? QuestionBank { get; set; }
 
     }
 }

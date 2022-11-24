@@ -1,4 +1,5 @@
 ﻿using GLC.Core.IRepositories;
+using GLC.Core.Resources;
 using GLC.Cores.Models;
 
 namespace GLC.Core.IUnitOfWork
@@ -7,11 +8,11 @@ namespace GLC.Core.IUnitOfWork
     {
         // Add your Models here with ONLY <get> property.
         // **** Assume that we have Students Model ****
-        IGenericRepository<Student> Students { get; }
+        IGenericRepository<Student, StudentResource> Students { get; }
 
         //int Complete(); implement SaveChanges()
         //void Complete();
-        Task<int> CompeteAsync(); // implement SaveChangesAsync()
+        Task<int> CompleteAsync(); // implement SaveChangesAsync()
         //Task ComleteAsync(); Or implement as void.
     }
 }

@@ -1,7 +1,9 @@
 using GLC.Core.IUnitOfWork;
+using GLC.Core.MappingProfile;
 using GLC.EF;
 using GLC.EF.UnitOfWork;
 using Microsoft.EntityFrameworkCore;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,8 +16,16 @@ builder.Services.AddDbContext<GLCDbContext>(options =>
 );
 
 
+//Registering AutoMapper
+builder.Services.AddAutoMapper(typeof(MappingProfile).Assembly);
+
 //Registering UnitOfWork
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+// Ignoring Looping. //Download Package: Microsoft.AspNetCore.Mvc.NewtonJson
+builder.Services.AddControllers().AddNewtonsoftJson(
+    x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+    );
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
