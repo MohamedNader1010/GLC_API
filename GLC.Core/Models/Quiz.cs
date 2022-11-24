@@ -15,10 +15,10 @@ namespace GLC.Cores.Models
         public int Duration { get; set; }
         [ForeignKey("Student")]
         public Guid? StudentId { get; set; }
-        public Student Student { get; set; }
+        public Student? Student { get; set; }
         [ForeignKey("Subject")]
         public Guid? SubjectID { get; set; }
-        public  Subject Subject { get; set; }
+        public  Subject? Subject { get; set; }
         public ICollection<StudentQuizeQuestionBank> QuizeQuestions = new Collection<StudentQuizeQuestionBank>();
 
     }

@@ -9,7 +9,7 @@ namespace GLC.Cores.Models
         public Guid GroupChatId { get; set; }
         public string Message { get; set; }
         public int level { get; set; }
-        public ICollection<ChatingDetails> Chats { get; set; } = new Collection<ChatingDetails>();
+        public ICollection<ChattingDetails> Chats { get; set; } = new Collection<ChattingDetails>();
         
     }
 }

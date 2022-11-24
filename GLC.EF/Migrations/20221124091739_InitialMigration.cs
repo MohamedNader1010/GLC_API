@@ -1,11 +1,10 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
 namespace GLC.EF.Migrations
 {
-    public partial class DBCreation : Migration
+    public partial class InitialMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -78,7 +77,7 @@ namespace GLC.EF.Migrations
                 {
                     QuestionCategoryId = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "newsequentialid()"),
                     Category = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
-                    QuestionBankId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    QuestionBankId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -87,8 +86,7 @@ namespace GLC.EF.Migrations
                         name: "FK_questionCategories_questionBanks_QuestionBankId",
                         column: x => x.QuestionBankId,
                         principalTable: "questionBanks",
-                        principalColumn: "QuestionId",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "QuestionId");
                 });
 
             migrationBuilder.CreateTable(
@@ -98,7 +96,7 @@ namespace GLC.EF.Migrations
                     SubjectId = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "newsequentialid()"),
                     Name = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
                     Level = table.Column<int>(type: "int", nullable: false),
-                    TeacherId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    TeacherId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -107,8 +105,7 @@ namespace GLC.EF.Migrations
                         name: "FK_Subjects_Teachers_TeacherId",
                         column: x => x.TeacherId,
                         principalTable: "Teachers",
-                        principalColumn: "TeacherId",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "TeacherId");
                 });
 
             migrationBuilder.CreateTable(
@@ -117,12 +114,12 @@ namespace GLC.EF.Migrations
                 {
                     GroupId = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "newsequentialid()"),
                     Day = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    StartDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     From = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     To = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Capacity = table.Column<int>(type: "int", nullable: false),
                     NumOfStudents = table.Column<int>(type: "int", nullable: false),
-                    SubjectId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    SubjectId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     Availability = table.Column<bool>(type: "bit", nullable: false),
                     TeacherID = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
@@ -133,8 +130,7 @@ namespace GLC.EF.Migrations
                         name: "FK_Groups_Subjects_SubjectId",
                         column: x => x.SubjectId,
                         principalTable: "Subjects",
-                        principalColumn: "SubjectId",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "SubjectId");
                     table.ForeignKey(
                         name: "FK_Groups_Teachers_TeacherID",
                         column: x => x.TeacherID,
@@ -152,8 +148,8 @@ namespace GLC.EF.Migrations
                     MainSection = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     MainSubject = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Link = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    TeacherId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    SubjectId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    TeacherId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    SubjectId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -162,14 +158,12 @@ namespace GLC.EF.Migrations
                         name: "FK_Videos_Subjects_SubjectId",
                         column: x => x.SubjectId,
                         principalTable: "Subjects",
-                        principalColumn: "SubjectId",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "SubjectId");
                     table.ForeignKey(
                         name: "FK_Videos_Teachers_TeacherId",
                         column: x => x.TeacherId,
                         principalTable: "Teachers",
-                        principalColumn: "TeacherId",
-                        onDelete: ReferentialAction.NoAction);
+                        principalColumn: "TeacherId");
                 });
 
             migrationBuilder.CreateTable(
@@ -188,8 +182,8 @@ namespace GLC.EF.Migrations
                     Level = table.Column<int>(type: "int", nullable: false),
                     Phone = table.Column<string>(type: "nvarchar(11)", maxLength: 11, nullable: true),
                     Gender = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    GroupID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    AssignDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    GroupID = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    AssignDate = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -198,8 +192,7 @@ namespace GLC.EF.Migrations
                         name: "FK_Students_Groups_GroupID",
                         column: x => x.GroupID,
                         principalTable: "Groups",
-                        principalColumn: "GroupId",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "GroupId");
                 });
 
             migrationBuilder.CreateTable(
@@ -231,13 +224,13 @@ namespace GLC.EF.Migrations
                         column: x => x.StId,
                         principalTable: "Students",
                         principalColumn: "StudentId",
-                        onDelete: ReferentialAction.NoAction);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_ChatingDetails_Teachers_TeacherId",
                         column: x => x.TeacherId,
                         principalTable: "Teachers",
                         principalColumn: "TeacherId",
-                        onDelete: ReferentialAction.NoAction);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -250,8 +243,8 @@ namespace GLC.EF.Migrations
                     Level = table.Column<int>(type: "int", nullable: false),
                     Date = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Duration = table.Column<int>(type: "int", nullable: false),
-                    StudentId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    SubjectID = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    StudentId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    SubjectID = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -260,14 +253,12 @@ namespace GLC.EF.Migrations
                         name: "FK_Quizes_Students_StudentId",
                         column: x => x.StudentId,
                         principalTable: "Students",
-                        principalColumn: "StudentId",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "StudentId");
                     table.ForeignKey(
                         name: "FK_Quizes_Subjects_SubjectID",
                         column: x => x.SubjectID,
                         principalTable: "Subjects",
-                        principalColumn: "SubjectId",
-                        onDelete: ReferentialAction.NoAction);
+                        principalColumn: "SubjectId");
                 });
 
             migrationBuilder.CreateTable(
@@ -298,7 +289,7 @@ namespace GLC.EF.Migrations
                         column: x => x.StudentId,
                         principalTable: "Students",
                         principalColumn: "StudentId",
-                        onDelete: ReferentialAction.NoAction);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(

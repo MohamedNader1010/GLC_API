@@ -5,25 +5,26 @@ namespace GLC.EF
 {
     public class GLCDbContext : DbContext
     {
-        public virtual DbSet<Student> Students { get; set; }
-        public virtual DbSet<Teacher> Teachers { get; set; }
-        public virtual DbSet<Subject> Subjects { get; set; }
-        public virtual DbSet<Group> Groups { set; get; }
-        public virtual DbSet<Video>Videos { set; get; }
-        public virtual DbSet<StudentQuizeQuestionBank> QuizeQuestions { set; get; }
-        public virtual DbSet<QuestionAnswer> QuestionAnswers { get; set; }
-        public virtual DbSet<QuestionCategory>questionCategories { set; get; }
-        public virtual DbSet<Quiz> Quizes { get; set; }
-        public virtual DbSet<QuestionBank> questionBanks { get; set; }
-        public virtual DbSet<ChatingDetails> ChatingDetails { set; get; }
-        public virtual DbSet<GroupChat> GroupChats { set; get; }
+        public DbSet<Student> Students { get; set; }
+        public DbSet<Teacher> Teachers { get; set; }
+        public DbSet<Subject> Subjects { get; set; }
+        public DbSet<Group> Groups { set; get; }
+        public DbSet<Video> Videos { set; get; }
+        public DbSet<StudentQuizeQuestionBank> QuizeQuestions { set; get; }
+        public DbSet<QuestionAnswer> QuestionAnswers { get; set; }
+        public DbSet<QuestionCategory> questionCategories { set; get; }
+        public DbSet<Quiz> Quizes { get; set; }
+        public DbSet<QuestionBank> questionBanks { get; set; }
+        public DbSet<ChattingDetails> ChatingDetails { set; get; }
+        public DbSet<GroupChat> GroupChats { set; get; }
+
         public GLCDbContext(DbContextOptions<GLCDbContext> options) : base(options)
         {
 
         }
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            builder.Entity<ChatingDetails>().HasKey(table => new
+            builder.Entity<ChattingDetails>().HasKey(table => new
             {
                 table.StId,
                 table.GroupChatId,
@@ -36,7 +37,7 @@ namespace GLC.EF
                 table.StudentId,
                 table.QuizeId,
                 table.QuestionId
-            }) ;
+            });
 
             builder.Entity<Teacher>(s => s.Property(u => u.TeacherId).HasDefaultValueSql("newsequentialid()"));
             builder.Entity<Student>(s => s.Property(u => u.StudentId).HasDefaultValueSql("newsequentialid()"));
@@ -49,5 +50,6 @@ namespace GLC.EF
             builder.Entity<Group>(s => s.Property(u => u.GroupId).HasDefaultValueSql("newsequentialid()"));
             builder.Entity<QuestionCategory>(s => s.Property(u => u.QuestionCategoryId).HasDefaultValueSql("newsequentialid()"));
         }
+
     }
 }

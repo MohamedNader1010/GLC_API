@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace GLC.Cores.Models
 {
-    public class ChatingDetails
+    public class ChattingDetails
     {
         [ForeignKey("Student")]
         public Guid? StId { get; set; }
