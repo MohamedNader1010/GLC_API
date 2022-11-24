@@ -1,9 +1,11 @@
-﻿using GLC.Cores.Models;
+﻿using GLC.Core.ExtendUser;
+using GLC.Cores.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace GLC.EF
 {
-    public class GLCDbContext : DbContext
+    public class GLCDbContext : IdentityDbContext<ApplicationUser>
     {
         public DbSet<Student> Students { get; set; }
         public DbSet<Teacher> Teachers { get; set; }
@@ -24,6 +26,7 @@ namespace GLC.EF
         }
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            base.OnModelCreating(builder);
             builder.Entity<ChattingDetails>().HasKey(table => new
             {
                 table.StId,
