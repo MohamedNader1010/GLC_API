@@ -13,9 +13,7 @@ namespace GLC.Cores.Models
         public int Level { get; set; }
         public string Date { get; set; }
         public int Duration { get; set; }
-        [ForeignKey("Student")]
-        public Guid? StudentId { get; set; }
-        public Student? Student { get; set; }
+       
         [ForeignKey("Subject")]
         public Guid? SubjectID { get; set; }
         public  Subject? Subject { get; set; }

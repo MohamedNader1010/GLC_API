@@ -16,11 +16,7 @@ namespace GLC.EF.Repositories
         }
 
 
-        // adding new object.
-        //public async Task AddAsync(TEntity entity)
-        //{
-        //    await _context.Set<TEntity>().AddAsync(entity);
-        //}
+     
 
         public async Task<TEntityResource> AddAsync(TEntityResource entity)
         {
@@ -106,8 +102,8 @@ namespace GLC.EF.Repositories
                 throw new NullReferenceException();
             else
             {
-                entity = _mapper.Map<TEntity, TEntityResource>(obj);
-                return entity;
+                var updatedEntity = _mapper.Map<TEntityResource, TEntity>(entity, obj);
+                return _mapper.Map<TEntity, TEntityResource>(updatedEntity);
             }
 
         }
@@ -123,7 +119,7 @@ namespace GLC.EF.Repositories
             }
         }
 
-        public async Task<IEnumerable<TEntityResource>> GetAllAsync()
+        public  async Task<IEnumerable<TEntityResource>> GetAllAsync()
         {
 
             var objs = await _context.Set<TEntity>().ToListAsync();

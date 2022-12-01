@@ -4,6 +4,7 @@ using GLC.EF;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GLC.EF.Migrations
 {
     [DbContext(typeof(GLCDbContext))]
-    partial class GLCDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221126121109_v2")]
+    partial class v2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -230,6 +232,9 @@ namespace GLC.EF.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
+
                     b.HasKey("QuestionId");
 
                     b.ToTable("questionBanks");
@@ -277,6 +282,9 @@ namespace GLC.EF.Migrations
                     b.Property<int>("Mark")
                         .HasColumnType("int");
 
+                    b.Property<Guid?>("StudentId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<Guid?>("SubjectID")
                         .HasColumnType("uniqueidentifier");
 
@@ -285,6 +293,8 @@ namespace GLC.EF.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("QuizId");
+
+                    b.HasIndex("StudentId");
 
                     b.HasIndex("SubjectID");
 
@@ -360,10 +370,6 @@ namespace GLC.EF.Migrations
 
                     b.Property<Guid?>("QuestionId")
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("StudentAnswer")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("StudentId", "QuizeId", "QuestionId");
 
@@ -692,9 +698,15 @@ namespace GLC.EF.Migrations
 
             modelBuilder.Entity("GLC.Cores.Models.Quiz", b =>
                 {
+                    b.HasOne("GLC.Cores.Models.Student", "Student")
+                        .WithMany()
+                        .HasForeignKey("StudentId");
+
                     b.HasOne("GLC.Cores.Models.Subject", "Subject")
                         .WithMany("Quizes")
                         .HasForeignKey("SubjectID");
+
+                    b.Navigation("Student");
 
                     b.Navigation("Subject");
                 });

@@ -8,8 +8,12 @@ namespace GLC.Core.IUnitOfWork
     {
         // Add your Models here with ONLY <get> property.
         // **** Assume that we have Students Model ****
-        IGenericRepository<Student, StudentResource> Students { get; }
-
+     
+        IGenericRepository<Student,StudentResource> Students { get; }
+        IChatinggDetales chatingDetails { get; }
+        ITeacher teachers { get; }
+        IVideo videos { get; }
+        ISubject subject { get; }
         //int Complete(); implement SaveChanges()
         //void Complete();
         Task<int> CompleteAsync(); // implement SaveChangesAsync()

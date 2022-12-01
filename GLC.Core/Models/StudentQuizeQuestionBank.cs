@@ -7,15 +7,15 @@ namespace GLC.Cores.Models
     {
         
         [ForeignKey("Quiz")]
-        public Guid? QuizeId { get; set; }
-        public  Quiz? Quize { get; set; }
+        public Guid QuizeId { get; set; }
+        public  Quiz Quize { get; set; }
         [ForeignKey("Question")]
-        public Guid? QuestionId { get; set; }
-        public  QuestionBank? Question { get; set; }
+        public Guid QuestionId { get; set; }
+        public  QuestionBank Question { get; set; }
         [ForeignKey("Student")]
-        public Guid? StudentId { get; set; }
-        public Student? Student { get;set; }
+        public Guid StudentId { get; set; }
+        public Student Student { get;set; }
 
-
+        public string StudentAnswer { get; set; }
     }
 }
