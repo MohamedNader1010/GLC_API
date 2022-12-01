@@ -11,10 +11,10 @@
         public string Link { get; set; }
 
         public Guid? TeacherId { get; set; }
-        public TeacherResource? Teacher { get; set; }
+   
 
 
         public Guid? SubjectId { get; set; }
-        public SubjectResource? Subject { get; set; }
+
     }
 }

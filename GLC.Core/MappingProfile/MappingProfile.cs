@@ -8,9 +8,9 @@ namespace GLC.Core.MappingProfile
     {
         public MappingProfile()
         {
-            CreateMap<Student, StudentResource>().ReverseMap();
-            CreateMap<Group, GroupResource>().ReverseMap();
-            CreateMap<Teacher, TeacherResource>().ReverseMap();
+            CreateMap<Student, StudentResource>().ReverseMap().ForMember(n => n.StudentId, m => m.Ignore());
+            CreateMap<Group, GroupResource>().ReverseMap().ForMember(n => n.GroupId, m => m.Ignore());
+            CreateMap<Teacher, TeacherResource>().ReverseMap().ForMember(n=>n.TeacherId,m=>m.Ignore());
             CreateMap<GroupChat, GroupChatResource>().ReverseMap();
             CreateMap<ChattingDetails, ChattingDetailsResource>().ReverseMap();
             CreateMap<QuestionAnswer, QuestionAnswerResource>().ReverseMap();

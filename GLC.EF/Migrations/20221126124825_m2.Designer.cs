@@ -4,6 +4,7 @@ using GLC.EF;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GLC.EF.Migrations
 {
     [DbContext(typeof(GLCDbContext))]
-    partial class GLCDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221126124825_m2")]
+    partial class m2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -360,10 +362,6 @@ namespace GLC.EF.Migrations
 
                     b.Property<Guid?>("QuestionId")
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("StudentAnswer")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("StudentId", "QuizeId", "QuestionId");
 
