@@ -3,6 +3,7 @@ using GLC.Core.IUnitOfWork;
 using GLC.Core.MappingProfile;
 using GLC.EF;
 using GLC.EF.UnitOfWork;
+using GLC_SAL.Hub;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -22,14 +23,14 @@ builder.Services.AddDbContext<GLCDbContext>(options =>
 // Registering Identity Users and roles
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 {
-    //Default Password Setting
-    options.User.RequireUniqueEmail = true;
-    options.Password.RequireDigit = true;
-    options.Password.RequireUppercase = true;
-    options.Password.RequireLowercase = true;
-    options.Password.RequireNonAlphanumeric = true;
-    options.Password.RequiredLength = 6;
-    options.Password.RequiredUniqueChars = 0;
+  //Default Password Setting
+  options.User.RequireUniqueEmail = true;
+  options.Password.RequireDigit = true;
+  options.Password.RequireUppercase = true;
+  options.Password.RequireLowercase = true;
+  options.Password.RequireNonAlphanumeric = true;
+  options.Password.RequiredLength = 6;
+  options.Password.RequiredUniqueChars = 0;
 
 }).AddEntityFrameworkStores<GLCDbContext>()
              .AddTokenProvider<DataProtectorTokenProvider<ApplicationUser>>(TokenOptions.DefaultProvider);
@@ -39,25 +40,26 @@ builder.Services.Configure<DataProtectionTokenProviderOptions>(opts => opts.Toke
 
 builder.Services.AddAuthentication(options =>
 {
-    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+  options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+  options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+  options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
 })
 
 // Adding Jwt Bearer
 .AddJwtBearer(options =>
 {
-    options.SaveToken = true;
-    options.RequireHttpsMetadata = false;
-    options.TokenValidationParameters = new TokenValidationParameters()
-    {
-        ValidateIssuer = true,
-        ValidateAudience = true,
-        ValidAudience = builder.Configuration["JWT:ValidAudience"],
-        ValidIssuer = builder.Configuration["JWT:ValidIssuer"],
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:Secret"]))
-    };
+  options.SaveToken = true;
+  options.RequireHttpsMetadata = false;
+  options.TokenValidationParameters = new TokenValidationParameters()
+  {
+    ValidateIssuer = true,
+    ValidateAudience = true,
+    ValidAudience = builder.Configuration["JWT:ValidAudience"],
+    ValidIssuer = builder.Configuration["JWT:ValidIssuer"],
+    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:Secret"]))
+  };
 });
+
 //Registering AutoMapper
 builder.Services.AddAutoMapper(typeof(MappingProfile).Assembly);
 
@@ -74,19 +76,44 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+
+builder.Services.AddSignalR();
+builder.Services.AddCors(options => options.AddPolicy(name: "GLC_Origins",
+    policy =>
+    {
+      policy.
+      WithOrigins("http://localhost:4200").
+      AllowAnyMethod().
+      AllowAnyHeader().
+      AllowCredentials().
+
+      SetIsOriginAllowed((hosts) => true);
+    }));
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+  app.UseSwagger();
+  app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
-
+app.UseCors("GLC_Origins");
+app.UseRouting();
 app.UseAuthorization();
 
-app.MapControllers();
+
+app.UseHttpsRedirection();
+app.UseEndpoints(endpoints =>
+{
+  endpoints.MapHub<MessageHub>("/chat");
+  endpoints.MapControllers();
+});
+
+//app.MapControllers();
+//app.MapHub<MessageHub>("/offers");
+
+
 
 app.Run();

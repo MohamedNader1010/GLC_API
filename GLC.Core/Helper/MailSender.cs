@@ -1,11 +1,7 @@
 ﻿using GLC.Core.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Mail;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace GLC.Core.Helper
 {
@@ -27,7 +23,7 @@ namespace GLC.Core.Helper
                 smtp.Send("abcdefg.asas.125@gmail.com", model.Mail, model.Title, model.Message);
 
                 var result = "Mail Sent Successfully";
-                return result;  
+                return result;
             }
             catch (Exception)
             {

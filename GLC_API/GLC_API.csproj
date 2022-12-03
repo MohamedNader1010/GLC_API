@@ -35,6 +35,7 @@
   <ItemGroup>
     <ProjectReference Include="..\GLC.Core\GLC.Core.csproj" />
     <ProjectReference Include="..\GLC.EF\GLC.EF.csproj" />
+    <ProjectReference Include="..\GLC_SAL\GLC_SAL.csproj" />
   </ItemGroup>
 
 </Project>

@@ -24,7 +24,7 @@ namespace GLC.EF.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("GLC.Cores.Models.ChattingDetails", b =>
+            modelBuilder.Entity("GLC.Cores.Models.ChatingDetails", b =>
                 {
                     b.Property<Guid?>("StId")
                         .HasColumnType("uniqueidentifier");
@@ -398,7 +398,7 @@ namespace GLC.EF.Migrations
                     b.ToTable("Videos");
                 });
 
-            modelBuilder.Entity("GLC.Cores.Models.ChattingDetails", b =>
+            modelBuilder.Entity("GLC.Cores.Models.ChatingDetails", b =>
                 {
                     b.HasOne("GLC.Cores.Models.GroupChat", "GroupChat")
                         .WithMany("Chats")
