@@ -24,6 +24,7 @@ namespace GLC.EF.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
+            modelBuilder.Entity("GLC.Cores.Models.ChatingDetails", b =>
             modelBuilder.Entity("GLC.Core.ExtendUser.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
@@ -476,6 +477,7 @@ namespace GLC.EF.Migrations
                     b.ToTable("Videos");
                 });
 
+            modelBuilder.Entity("GLC.Cores.Models.ChatingDetails", b =>
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")

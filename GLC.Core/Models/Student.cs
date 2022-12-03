@@ -31,7 +31,7 @@ namespace GLC.Cores.Models
         public Guid? GroupID { get; set; }
         public Group? Group { get; set; }
         public ICollection<StudentQuizeQuestionBank> Quizes { get; set; } = new Collection<StudentQuizeQuestionBank>();
-        public ICollection<ChattingDetails> ChatingDetails { get; set; } = new Collection<ChattingDetails>();
+        public ICollection<ChatingDetails> ChatingDetails { get; set; } = new Collection<ChatingDetails>();
         public DateTime? AssignDate { get; set; }
 
         //public Student()

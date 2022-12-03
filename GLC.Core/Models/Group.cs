@@ -21,7 +21,7 @@ namespace GLC.Cores.Models
         public  Subject? Subject { get; set; }
         public bool Availability { get; set; }
         public ICollection<Student>? Students { get; set; }=new Collection<Student>();
-        public ICollection<ChattingDetails> ChatingDetails { get; set; } = new Collection<ChattingDetails>();
+        public ICollection<ChatingDetails> ChatingDetails { get; set; } = new Collection<ChatingDetails>();
         [ForeignKey("Teacher")]
         public Guid?TeacherID { get; set; }
         public Teacher? Teacher { get; set; }

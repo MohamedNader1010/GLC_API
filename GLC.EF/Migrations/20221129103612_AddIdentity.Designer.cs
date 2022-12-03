@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GLC.EF.Migrations
 {
     [DbContext(typeof(GLCDbContext))]
-    [Migration("20221126124825_m2")]
-    partial class m2
+    [Migration("20221129103612_AddIdentity")]
+    partial class AddIdentity
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -24,7 +24,6 @@ namespace GLC.EF.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("GLC.Cores.Models.ChatingDetails", b =>
             modelBuilder.Entity("GLC.Core.ExtendUser.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
@@ -100,7 +99,7 @@ namespace GLC.EF.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("GLC.Cores.Models.ChattingDetails", b =>
+            modelBuilder.Entity("GLC.Cores.Models.ChatingDetails", b =>
                 {
                     b.Property<Guid?>("StId")
                         .HasColumnType("uniqueidentifier");
@@ -229,10 +228,6 @@ namespace GLC.EF.Migrations
                     b.Property<int>("QuestionMark")
                         .HasColumnType("int");
 
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("QuestionId");
 
                     b.ToTable("questionBanks");
@@ -280,6 +275,9 @@ namespace GLC.EF.Migrations
                     b.Property<int>("Mark")
                         .HasColumnType("int");
 
+                    b.Property<Guid?>("StudentId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<Guid?>("SubjectID")
                         .HasColumnType("uniqueidentifier");
 
@@ -288,6 +286,8 @@ namespace GLC.EF.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("QuizId");
+
+                    b.HasIndex("StudentId");
 
                     b.HasIndex("SubjectID");
 
@@ -473,7 +473,6 @@ namespace GLC.EF.Migrations
                     b.ToTable("Videos");
                 });
 
-            modelBuilder.Entity("GLC.Cores.Models.ChatingDetails", b =>
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
@@ -622,7 +621,7 @@ namespace GLC.EF.Migrations
                     b.Navigation("Teacher");
                 });
 
-            modelBuilder.Entity("GLC.Cores.Models.ChattingDetails", b =>
+            modelBuilder.Entity("GLC.Cores.Models.ChatingDetails", b =>
                 {
                     b.HasOne("GLC.Cores.Models.GroupChat", "GroupChat")
                         .WithMany("Chats")
@@ -692,9 +691,15 @@ namespace GLC.EF.Migrations
 
             modelBuilder.Entity("GLC.Cores.Models.Quiz", b =>
                 {
+                    b.HasOne("GLC.Cores.Models.Student", "Student")
+                        .WithMany()
+                        .HasForeignKey("StudentId");
+
                     b.HasOne("GLC.Cores.Models.Subject", "Subject")
                         .WithMany("Quizes")
                         .HasForeignKey("SubjectID");
+
+                    b.Navigation("Student");
 
                     b.Navigation("Subject");
                 });
